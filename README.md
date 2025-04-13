@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# White House Watch
+
+This project tracks recent press releases from the White House. It allows users to:
+- View the latest press releases.
+- Chat with the content of the press releases using a Retrieval-Augmented Generation (RAG) system.
+- Subscribe to specific topics to receive notifications about relevant new releases.
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies using Bun:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+```
+
+Then, run the development server:
+
+```bash
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Database Migrations
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses Drizzle ORM with Neon database. To manage database schema changes, use the following scripts:
 
-## Learn More
+- **Generate Migrations:** After changing your schema files (likely in `src/db/schema.ts`), generate migration files:
+  ```bash
+  bun run db:generate
+  ```
+- **Apply Migrations:** Apply generated migrations to your database:
+  ```bash
+  bun run db:migrate
+  ```
+- **Push Schema (Development Only):** Directly push schema changes to the database without generating migration files. **Use with caution, primarily for development**:
+  ```bash
+  bun run db:push
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+### Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project requires certain environment variables to be set. Create a `.env.local` file in the root directory and add the following variables:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+OPENAI_API_KEY=your_openai_api_key
+DATABASE_URL=your_database_connection_string
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_api_key
+RESEND_API_KEY=your_resend_api_key
+```
 
-## Deploy on Vercel
+- `OPENAI_API_KEY`: Your API key from OpenAI, used for the RAG system.
+- `DATABASE_URL`: The connection string for your Neon PostgreSQL database.r
+- `RESEND_API_KEY`: Your API key from Resend, used for sending email notifications for topic subscriptions.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Make sure to replace the placeholder values with your actual credentials.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

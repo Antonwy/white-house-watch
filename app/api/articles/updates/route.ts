@@ -11,8 +11,6 @@ import { FullInsertArticle } from "@/lib/types";
 import { notifySubscribers } from "@/lib/notifications/notify-subscribers";
 import { PoliticalTopic } from "@/lib/data/political-topics";
 
-export const maxDuration = 60 * 10; // 10 minutes
-
 export async function POST() {
     const newArticles = await scrapeNewArticles();
     
