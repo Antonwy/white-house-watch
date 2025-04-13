@@ -1,6 +1,9 @@
 import db from '@/lib/db/db';
 import { eq } from 'drizzle-orm';
 import { articlesSchema } from '@/lib/db/schema';
+import WhitehouseWatchLogo from '@/components/whitehouse-watch-logo';
+import { Markdown } from '@/components/markdown';
+import ChatInput from '@/components/chat-input';
 type Props = {
   params: Promise<{ articleId: string }>;
 };
@@ -20,14 +23,30 @@ async function ArticlePage({ params }: Props) {
   }
 
   return (
-    <section className="p-4">
-      <h1 className="text-2xl font-bold">{article?.title}</h1>
-      <p className="text-sm text-gray-500">{article?.shortDescription}</p>
+    <main className="relative p-4">
+      <section className="flex items-center justify-center p-4">
+        <WhitehouseWatchLogo />
+      </section>
 
-      <div className="mt-4">
-        <p className="text-sm text-gray-500">{article?.resource?.content}</p>
-      </div>
-    </section>
+      <section className="w-full max-w-2xl mx-auto flex flex-col gap-2 mt-8">
+        <h1 className="text-2xl font-bold">{article?.title}</h1>
+        <p className="text-sm text-muted-foreground">
+          {article?.shortDescription}
+        </p>
+
+        <span className="border-b border-gray-200 w-full my-4" />
+
+        {article?.resource?.content && (
+          <Markdown>{article?.resource?.content}</Markdown>
+        )}
+      </section>
+
+      <section className="sticky bottom-4 left-0 right-0 w-full max-w-2xl mx-auto flex flex-col gap-2 mt-8">
+        <div className="-mx-4">
+          <ChatInput withShadow withFactCheck />
+        </div>
+      </section>
+    </main>
   );
 }
 
