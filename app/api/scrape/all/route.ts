@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { scrapeAllArticles } from "@/lib/scraping/wh-scraper";
+import { scrapeAllArticles } from "@/lib/scraping/scrape-all-articles";
 import { insertArticle } from "@/lib/db/actions/insert-articles";
 import { generateEmbeddings } from "@/lib/vectors/generate-embeddings";
 import { insertEmbeddings } from "@/lib/db/actions/insert-embeddings";

@@ -11,7 +11,7 @@ export const articlesSchema = pgTable("articles", {
   publishedAt: timestamp("publishedAt").notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
   updatedAt: timestamp("updatedAt").defaultNow(),
-  resourceId: uuid("resourceId").references(() => resourcesSchema.id),
+  resourceId: uuid("resourceId").references(() => resourcesSchema.id, { onDelete: 'cascade' }),
 })
 
 export type Article = typeof articlesSchema.$inferSelect;
@@ -21,7 +21,7 @@ export const embeddingsSchema = pgTable("embeddings", {
   id: uuid("id").primaryKey().defaultRandom(),
   embedding: vector("embedding", { dimensions: 3072 }).notNull(),
   content: text("content").notNull(),
-  resourceId: uuid("resourceId").references(() => resourcesSchema.id),
+  resourceId: uuid("resourceId").references(() => resourcesSchema.id, { onDelete: 'cascade' }),
 });
 
 export type Embedding = typeof embeddingsSchema.$inferSelect;

@@ -24,3 +24,8 @@ export type GetInformationToolResult = {
   resourceId: string;
   article?: Article;
 }
+
+export type ImprovedHeading = {
+  title: string;
+  shortDescription: string;
+};

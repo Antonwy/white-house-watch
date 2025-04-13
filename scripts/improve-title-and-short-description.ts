@@ -1,47 +1,7 @@
 import db from '@/lib/db/db';
 import { articlesSchema, resourcesSchema } from '@/lib/db/schema';
-import { OpenAI } from 'openai';
+import { improveTitleAndCreateShortDescription } from '@/lib/text-improvements/improve-title-and-short-description';
 import { eq } from 'drizzle-orm';
-
-type ImprovedContent = {
-  title: string;
-  shortDescription: string;
-};
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const improveTitleAndCreateShortDescription = async (
-  title: string,
-  content: string,
-): Promise<ImprovedContent> => {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a helpful assistant that improves the title and creates a short description for a news article based on its existing title and content. Your goal is to make the title and description engaging for readers. Respond with a JSON object containing the improved `title` and a concise `shortDescription`.',
-      },
-      {
-        role: 'user',
-        content: `Improve the title and create an engaging, concise short description for the following news article:
-
-Original Title: ${title}
-
-Content: ${content}`,
-      },
-    ],
-    response_format: { type: 'json_object' },
-  });
-
-  const result = response.choices[0].message.content;
-  if (!result) {
-    throw new Error('No content received from OpenAI');
-  }
-
-  return JSON.parse(result) as ImprovedContent;
-};
 
 const articlesWithContent = await db
   .select({

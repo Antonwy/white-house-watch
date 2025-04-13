@@ -1,5 +1,5 @@
 
-import { scrapeAllArticles } from "../lib/scraping/wh-scraper";
+import { scrapeAllArticles } from "../lib/scraping/scrape-all-articles";
 import { insertArticle } from "../lib/db/actions/insert-articles";
 
 const allArticles = await scrapeAllArticles();
