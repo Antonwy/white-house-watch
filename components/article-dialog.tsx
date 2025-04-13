@@ -82,7 +82,7 @@ function ArticleDialog({
 
         <section
           className={cn(
-            'flex gap-2 justify-between absolute bottom-0 left-0 right-0 p-6 bg-background flex-col md:flex-row items-center',
+            'flex gap-2 justify-between p-6 bg-background flex-col md:flex-row items-center',
             resource && 'border-t pt-6'
           )}
         >
@@ -91,7 +91,7 @@ function ArticleDialog({
             <Tag>{formattedPublishedAt}</Tag>
           </div>
 
-          <div className="flex flex-row justify-end gap-2 md:flex w-full">
+          <div className="flex flex-row justify-end gap-2 md:flex w-full md:w-auto">
             {resourceId && !resource && (
               <Button
                 variant="secondary"
@@ -111,7 +111,7 @@ function ArticleDialog({
               </Button>
             )}
 
-            <Button className="grow" onClick={() => setIsOpen(false)}>
+            <Button className="grow md:grow-0" onClick={() => setIsOpen(false)}>
               Close
             </Button>
           </div>
