@@ -142,6 +142,10 @@ To enable the chat functionality (Retrieval-Augmented Generation - RAG), the app
 ****
 ---
 
+## Architecture & Flow
+
+![Architecture & Flow](/architecture-and-flow.pdf)
+
 ## 🌐 Live Version
 
 You can try out the live app here: [https://white-house-watch.vercel.app/](https://white-house-watch.vercel.app/)
