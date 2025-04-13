@@ -1,13 +1,5 @@
 'use client';
 
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
 import { cn, formatDate } from '@/lib/utils';
 import Tag from './tag';
 import { Resource } from '@/lib/db/schema';
@@ -15,7 +7,16 @@ import { useState } from 'react';
 import { getResource } from '@/lib/db/queries/get-resource';
 import { Markdown } from './markdown';
 import { Button } from './ui/button';
-import { FileTextIcon, Loader2, XIcon } from 'lucide-react';
+import { FileTextIcon, Loader2 } from 'lucide-react';
+import { ScrollArea } from './ui/scroll-area';
+import {
+  ResponsiveDialog,
+  ResponsiveDialogTrigger,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogDescription,
+} from './ui/responsive-drawer-dialog';
 
 type Props = {
   resourceId: string | null;
@@ -23,6 +24,7 @@ type Props = {
   publishedAt: string | Date;
   category: string;
   shortDescription: string | null;
+  topics: string[] | null;
   children: React.ReactNode;
   className?: string;
 };
@@ -35,6 +37,7 @@ function ArticleDialog({
   shortDescription,
   children,
   className,
+  topics,
 }: Props) {
   const formattedPublishedAt = formatDate(publishedAt);
   const [resource, setResource] = useState<Resource | null>(null);
@@ -49,36 +52,46 @@ function ArticleDialog({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className={cn('text-left', className)}>
+    <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
+      <ResponsiveDialogTrigger className={cn('text-left', className)}>
         {children}
-      </DialogTrigger>
-      <DialogContent className="!max-w-2xl max-h-[90vh] overflow-y-auto p-0 gap-0">
-        <DialogHeader className="bg-muted p-6 sticky top-0">
-          <DialogTitle>{title}</DialogTitle>
+      </ResponsiveDialogTrigger>
+      <ResponsiveDialogContent className="flex flex-col !max-w-2xl max-h-[90dvh] overflow-hidden p-0 gap-0">
+        <ResponsiveDialogHeader className="md:bg-muted p-6">
+          <ResponsiveDialogTitle>{title}</ResponsiveDialogTitle>
           {shortDescription && (
-            <DialogDescription>{shortDescription}</DialogDescription>
+            <ResponsiveDialogDescription>
+              {shortDescription}
+            </ResponsiveDialogDescription>
           )}
-        </DialogHeader>
+
+          <div className="flex flex-row flex-wrap gap-2 items-center mt-2">
+            {topics?.map((topic) => (
+              <Tag key={topic} className="bg-zinc-200 border-zinc-300">
+                {topic}
+              </Tag>
+            ))}
+          </div>
+        </ResponsiveDialogHeader>
 
         {resource && (
-          <div className="text-sm px-6 pb-6">
+          <ScrollArea className="text-sm px-6 pb-6 grow overflow-y-auto">
             <Markdown>{resource?.content}</Markdown>
-          </div>
+          </ScrollArea>
         )}
 
         <section
           className={cn(
-            'flex gap-2 justify-between p-6 sticky bottom-0 bg-background',
+            'flex gap-2 justify-between absolute bottom-0 left-0 right-0 p-6 bg-background flex-col md:flex-row items-center',
             resource && 'border-t pt-6'
           )}
         >
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row flex-wrap gap-2 items-center">
             <Tag>{category}</Tag>
             <Tag>{formattedPublishedAt}</Tag>
           </div>
 
-          <div className="flex flex-row justify-end gap-2">
+          <div className="flex flex-row justify-end gap-2 md:flex w-full">
             {resourceId && !resource && (
               <Button
                 variant="secondary"
@@ -86,26 +99,25 @@ function ArticleDialog({
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="animate-spin" />
                     Load more
                   </>
                 ) : (
                   <>
-                    <FileTextIcon className="w-4 h-4" />
+                    <FileTextIcon />
                     Load more
                   </>
                 )}
               </Button>
             )}
 
-            <Button onClick={() => setIsOpen(false)}>
-              <XIcon className="w-4 h-4" />
+            <Button className="grow" onClick={() => setIsOpen(false)}>
               Close
             </Button>
           </div>
         </section>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 

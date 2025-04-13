@@ -62,7 +62,7 @@ function MessageGroup({
       )}
     >
       <motion.h1
-        className="text-lg font-bold"
+        className="text-lg font-bold px-4"
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
       >
@@ -73,7 +73,7 @@ function MessageGroup({
         <AnimatePresence>
           {!answer && (
             <motion.div
-              className="absolute inset-0"
+              className="absolute inset-0 px-4"
               initial={{ y: 5, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
@@ -92,7 +92,7 @@ function MessageGroup({
 
         {answer && (
           <motion.article
-            className="text-sm"
+            className="text-sm px-4"
             initial={{ y: 5, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
@@ -115,7 +115,7 @@ function MessageGroup({
               initial="hidden"
               animate="visible"
             >
-              {referenceArticles?.map((article) => (
+              {referenceArticles?.map((article, index) => (
                 <MotionArticleCard
                   key={article?.id}
                   resourceId={article?.resourceId}
@@ -123,10 +123,16 @@ function MessageGroup({
                   publishedAt={article?.publishedAt}
                   category={article?.category}
                   shortDescription={article?.shortDescription}
+                  topics={article?.topics}
                   variants={{
                     visible: { opacity: 1, y: 0 },
                     hidden: { opacity: 0, y: 5 },
                   }}
+                  className={cn(
+                    'px-4',
+                    index === 0 && 'ml-4',
+                    index === referenceArticles.length - 1 && 'mr-4'
+                  )}
                 />
               ))}
             </motion.div>

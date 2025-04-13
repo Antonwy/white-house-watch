@@ -43,7 +43,7 @@ async function ArticlePage({ params }: Props) {
 
       <section className="sticky bottom-4 left-0 right-0 w-full max-w-2xl mx-auto flex flex-col gap-2 mt-8">
         <div className="-mx-4">
-          <ChatInput withShadow withFactCheck />
+          <ChatInput withShadow />
         </div>
       </section>
     </main>

@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/scrape/updates",
+      "path": "/api/articles/updates",
       "schedule": "0 */6 * * *"
     }
   ]

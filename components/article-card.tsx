@@ -8,6 +8,7 @@ type Props = {
   publishedAt: Date | string;
   category: string;
   shortDescription: string | null;
+  topics: string[] | null;
   className?: string;
 };
 
@@ -17,6 +18,7 @@ export default function ArticleCard({
   publishedAt,
   shortDescription,
   category,
+  topics,
   className,
 }: Props) {
   const formattedPublishedAt = formatDate(publishedAt);
@@ -28,6 +30,7 @@ export default function ArticleCard({
       publishedAt={publishedAt}
       category={category}
       shortDescription={shortDescription}
+      topics={topics}
       className={cn(
         'p-4 min-w-72 w-72 h-30 flex-shrink-0 border border-muted rounded-lg hover:bg-muted/50 transition-colors',
         className

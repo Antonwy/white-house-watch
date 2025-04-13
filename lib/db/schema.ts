@@ -1,5 +1,6 @@
-import { text, pgTable, uuid, vector, timestamp } from "drizzle-orm/pg-core";
+import { text, pgTable, uuid, vector, timestamp, integer } from "drizzle-orm/pg-core";
 import { relations } from 'drizzle-orm';
+import { politicalTopics } from "../data/political-topics";
 
 export const articlesSchema = pgTable("articles", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -12,6 +13,7 @@ export const articlesSchema = pgTable("articles", {
   createdAt: timestamp("createdAt").defaultNow(),
   updatedAt: timestamp("updatedAt").defaultNow(),
   resourceId: uuid("resourceId").references(() => resourcesSchema.id, { onDelete: 'cascade' }),
+  topics: text("topics", { enum: politicalTopics }).array()
 })
 
 export type Article = typeof articlesSchema.$inferSelect;
@@ -42,3 +44,24 @@ export const articlesRelations = relations(articlesSchema, ({ one }) => ({
     references: [resourcesSchema.id],
   }),
 }));
+
+export const cronMetadataSchema = pgTable("cron_metadata", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  lastRun: timestamp("lastRun").defaultNow(),
+  newArticlesCount: integer("newArticlesCount").default(0),
+  cronType: text("cronType", { enum: ['article-updates'] }).notNull(),
+});
+
+export type CronMetadata = typeof cronMetadataSchema.$inferSelect;
+export type InsertCronMetadata = typeof cronMetadataSchema.$inferInsert;
+
+export const notifyMeSchema = pgTable("notify_me", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  possibleName: text("possibleName"),
+  email: text("email").notNull().unique(),
+  topics: text("topics").array().notNull(),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type NotifyMe = typeof notifyMeSchema.$inferSelect;
+export type InsertNotifyMe = typeof notifyMeSchema.$inferInsert;

@@ -2,14 +2,9 @@ import db from "../db";
 import { articlesSchema } from "../schema";
 import { desc } from "drizzle-orm";
 
-export const findRecentArticles = async () => {
+export const findRecentArticles = async (limit: number = 5) => {
   const articles = await db.select().from(articlesSchema)
-    .orderBy(desc(articlesSchema.publishedAt)).limit(5);
+    .orderBy(desc(articlesSchema.publishedAt)).limit(limit);
 
-  const result = articles.map(article => ({
-    ...article,
-    publishedAt: article.publishedAt.toISOString(),
-  }));
-
-  return result;
+  return articles;
 };

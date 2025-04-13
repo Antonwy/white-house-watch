@@ -1,4 +1,5 @@
 import { useEffect, useRef, RefObject } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 export function useScrollToBottom<T extends HTMLElement>(): [
   RefObject<T | null>,
@@ -27,3 +28,8 @@ export function useScrollToBottom<T extends HTMLElement>(): [
 
   return [containerRef, endRef];
 }
+
+export function useIsDesktop() {
+  return useMediaQuery('(min-width: 768px)');
+}
+

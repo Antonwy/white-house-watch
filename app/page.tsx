@@ -1,24 +1,18 @@
-import db from '@/lib/db/db';
-import { articlesSchema } from '@/lib/db/schema';
-import { desc } from 'drizzle-orm';
 import { cn } from '@/lib/utils';
-import WhitehouseWatchLogo from '@/components/whitehouse-watch-logo';
 import ChatInput from '@/components/chat-input';
 import ArticleCard from '@/components/article-card';
 import { quickReplies } from '@/lib/data/quick-replies';
+import { findRecentArticles } from '@/lib/db/queries/find-recent-articles';
+import { getLastArticlesUpdate } from '@/lib/db/queries/get-last-articles-update';
+import Header from '@/components/header';
 
 export default async function Home() {
-  const articles = await db
-    .select()
-    .from(articlesSchema)
-    .limit(10)
-    .orderBy((t) => desc(t.publishedAt));
+  const articles = await findRecentArticles(10);
+  const lastArticlesUpdate = await getLastArticlesUpdate();
 
   return (
     <main className="min-h-[100dvh] flex flex-col items-center justify-center">
-      <section className="flex items-center justify-center p-4">
-        <WhitehouseWatchLogo />
-      </section>
+      <Header />
 
       <section className="w-full max-w-2xl flex flex-col items-center gap-2 px-4">
         <ChatInput quickReplies={quickReplies.slice(0, 10)} />
@@ -38,6 +32,7 @@ export default async function Home() {
             publishedAt={article.publishedAt}
             category={article.category}
             shortDescription={article.shortDescription}
+            topics={article.topics}
             className={cn(
               index === 0 &&
                 'ml-4 md:ml-[calc(((100%-var(--container-2xl))/2)+var(--spacing)*4)]',
@@ -47,6 +42,19 @@ export default async function Home() {
           />
         ))}
       </section>
+
+      {lastArticlesUpdate?.lastRun && (
+        <span className="text-xs text-muted-foreground text-center px-2">
+          Last updated:{' '}
+          {lastArticlesUpdate.lastRun.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          })}
+        </span>
+      )}
     </main>
   );
 }

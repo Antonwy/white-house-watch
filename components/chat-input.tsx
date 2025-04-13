@@ -1,6 +1,6 @@
 'use client';
 
-import { SearchIcon, ShieldCheckIcon } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
 
 type Props = {
   withShadow?: boolean;
-  withFactCheck?: boolean;
   quickReplies?: string[];
   onSubmit?: (value: string) => void;
   onQuickReplyClick?: (value: string) => void;
@@ -19,7 +18,6 @@ type Props = {
 
 function ChatInput({
   withShadow = false,
-  withFactCheck = false,
   quickReplies,
   onSubmit,
   onQuickReplyClick,
@@ -110,16 +108,6 @@ function ChatInput({
             height={40}
           />
         </Link>
-
-        {withFactCheck && (
-          <button
-            type="button"
-            className="rounded-sm p-2 flex items-center gap-2 text-xs border border-zinc-200 hover:border-zinc-300 transition-colors bg-zinc-100 hover:bg-zinc-200"
-          >
-            <ShieldCheckIcon className="size-4" />
-            Check Facts
-          </button>
-        )}
       </div>
 
       <Button

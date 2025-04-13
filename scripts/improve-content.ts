@@ -1,6 +1,6 @@
 import db from '@/lib/db/db';
 import { articlesSchema, resourcesSchema } from '@/lib/db/schema';
-import { formatContentMarkdown } from '@/lib/text-improvements/format-content-markdown';
+import { formatContentMarkdown } from '@/lib/text-modifications/format-content-markdown';
 import { eq } from 'drizzle-orm';
 
 const articlesWithContent = await db

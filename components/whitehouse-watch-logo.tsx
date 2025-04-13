@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+
 function WhitehouseWatchLogo() {
   return (
     <Link href="/" className="flex flex-col items-center gap-4">

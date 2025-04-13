@@ -1,0 +1,25 @@
+export const politicalTopics = [
+  'Agriculture',
+  'Budget and Spending',
+  'Climate Change',
+  'Criminal Justice Reform',
+  'Economy',
+  'Education',
+  'Energy Policy',
+  'Environmental Protection',
+  'Foreign Policy',
+  'Gun Control',
+  'Healthcare',
+  'Housing',
+  'Immigration',
+  'Infrastructure',
+  'Labor and Employment',
+  'National Security',
+  'Social Issues',
+  'Tariffs',
+  'Technology Regulation',
+  'Trade',
+  'Voting Rights',
+] as const;
+
+export type PoliticalTopic = typeof politicalTopics[number];

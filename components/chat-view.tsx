@@ -107,10 +107,9 @@ function ChatView({ query }: Props) {
         <div ref={messagesEndRef} />
       </div>
 
-      <section className="max-w-2xl mx-auto w-full flex-shrink-0 pb-4">
+      <section className="max-w-2xl px-4 mx-auto w-full flex-shrink-0 pb-4">
         <ChatInput
           withShadow
-          withFactCheck
           onSubmit={appendUserMessage}
           disabled={status !== 'ready'}
           quickReplies={currentQuickReplies}
