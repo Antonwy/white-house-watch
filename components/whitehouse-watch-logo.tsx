@@ -11,7 +11,7 @@ function WhitehouseWatchLogo() {
         height={120}
       />
 
-      <h1 className="text-4xl font-[500] text-whitehouse font-[family-name:var(--font-scheherazade-new)] text-center">
+      <h1 className="text-4xl font-[500] text-whitehouse font-[family-name:var(--font-scheherazade-new)] text-center hidden md:block">
         WHITEHOUSE WATCH
       </h1>
     </Link>

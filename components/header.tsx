@@ -13,7 +13,7 @@ function Header({ showBackButton = false }: Props) {
     <header className="flex flex-col items-center justify-center my-4">
       <WhitehouseWatchLogo />
 
-      <p className="text-sm text-muted-foreground text-center px-2">
+      <p className="text-sm text-muted-foreground text-center px-2 hidden md:block">
         Stay ahead with the latest from the White House.
       </p>
 
